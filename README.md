@@ -21,3 +21,10 @@ Node's `AsyncLocalStorage` requires direct access to its `getStore()` result and
 ## Edge case
 
 If `set` or `delete` is called outside `run`, it is a safe no-op (`delete` returns `false`). There is intentionally no "default context"—values are only available inside an active `run` callback.
+
+## Performance
+
+The window keeps a bounded buffer, so `push` is constant time and memory does not
+grow with the length of the stream. `peak` and `trough` are linear in the window
+size, which is the trade that keeps `push` cheap.
+
